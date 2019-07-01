@@ -1,0 +1,16 @@
+[
+  {
+    "id": 10,
+    "name": "Shiva",
+    "role": "SSE",
+    "phoneNumber": 923243,
+    "address": "Hyd"
+  },
+  {
+    "id": 100,
+    "name": "Suresh",
+    "role": "SSE",
+    "phoneNumber": 9876543,
+    "address": "Hyderabad"
+  }
+]

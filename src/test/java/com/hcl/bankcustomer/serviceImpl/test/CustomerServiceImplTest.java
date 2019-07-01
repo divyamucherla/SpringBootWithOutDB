@@ -2,6 +2,7 @@ package com.hcl.bankcustomer.serviceImpl.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.hcl.bankcustomer.pojo.Customer;
 import com.hcl.bankcustomer.serviceImpl.CustomerServiceImpl;
 
@@ -21,7 +24,7 @@ public class CustomerServiceImplTest {
 	
 	
 	@Test
-	public void testaddingCustomer()
+	public void testaddingCustomer() throws JsonParseException, JsonMappingException, IOException
 	{
 	List<Customer> li = new ArrayList<>();
 		Customer customer=new Customer();
@@ -37,20 +40,23 @@ public class CustomerServiceImplTest {
 	}
 	
 	@Test
-	public void testupdatingCustomer() {
+	public void testupdatingCustomer() throws JsonParseException, JsonMappingException, IOException {
 		int id=12;
 		int phone=1234;
+		String name="name";
+		String role="role";
+		String address="address";
 		List<Customer> li = new ArrayList<>();
 		Customer customer=new Customer();
 		customer.setId(12);
 		customer.setPhoneNumber(1234);
 		li.add(customer);
-		List<Customer> li1=customerServiceImpl.updatingCustomer(id, phone);
+		List<Customer> li1=customerServiceImpl.updatingCustomer(id, name, role, phone, address);
 		assertEquals(9, li1.size());
 	}
 	
 	@Test
-	public void testdeleteCustomer() {
+	public void testdeleteCustomer() throws JsonParseException, JsonMappingException, IOException{
 		int id=1234;
 		Customer customer=new Customer();
 		customer.setId(12);
@@ -60,7 +66,7 @@ public class CustomerServiceImplTest {
 	}
 	
 	@Test
-	public void testsearchCustomer() {
+	public void testsearchCustomer() throws JsonParseException, JsonMappingException, IOException {
 		int id=10;
 		Customer cust1 = new Customer();
 		cust1.setId(10);

@@ -75,6 +75,9 @@ public class TestCustomerController {
 
 		int id = 12;
 		int phone = 1234;
+		String name="name";
+		String role="role";
+		String address="address";
 		List<Customer> li = new ArrayList<>();
 		Customer customer = new Customer();
 		customer.setAddress("address");
@@ -83,10 +86,10 @@ public class TestCustomerController {
 		customer.setPhoneNumber(1234);
 		customer.setRole("role");
 		li.add(customer);
-		Mockito.when(customerService.updatingCustomer(Mockito.anyInt(), Mockito.anyInt())).thenReturn(li);
-		this.mockMvc.perform(put("/{id}/{phone}", 12, 1234).contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(asJsonString(id).concat(asJsonString(phone)))).andReturn();
-		List<Customer> li1 = customerController.updatingCustomer(id, phone);
+		Mockito.when(customerService.updatingCustomer(Mockito.anyInt(),Mockito.anyString(),Mockito.anyString(),Mockito.anyInt(),Mockito.anyString())).thenReturn(li);
+		this.mockMvc.perform(put("/{id}/{phone}", 12,"name","role",1234,"address").contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(asJsonString(id).concat(asJsonString(name)).concat(asJsonString(role)).concat(asJsonString(phone)).concat(asJsonString(address)))).andReturn();
+		List<Customer> li1 = customerController.updatingCustomer(id, name, role, phone, address);
 		assertEquals(li, li1);
 	}
 
@@ -95,8 +98,8 @@ public class TestCustomerController {
 		int id = 1234;
 		String str = "value";
 		Mockito.when(customerService.deleteCustomer(Mockito.anyInt())).thenReturn("value");
-		this.mockMvc.perform(
-				delete("/{id}", 1234).contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(id)))
+		this.mockMvc
+				.perform(delete("/{id}", 1234).contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(id)))
 				.andReturn();
 		String str1 = customerController.deleteCustomer(id);
 		assertEquals(str, str1);
@@ -117,9 +120,7 @@ public class TestCustomerController {
 		Customer customer1 = customerController.findCustomer(id);
 		assertEquals(customer, customer1);
 	}
-	
-	
-	
+
 	@Test(expected = NestedServletException.class)
 	public void testfindCustomer_1() throws JsonProcessingException, Exception {
 		int id = 1234;
@@ -131,10 +132,11 @@ public class TestCustomerController {
 		customer.setRole("role");
 		Mockito.when(customerService.searchCustomer(Mockito.anyInt())).thenReturn(null);
 		this.mockMvc.perform(get("/{id}", 1234).contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(id)))
-		.andReturn();
-				//.equals( new CustomerDataNotFoundException("customer data does not exist with id "+id));
+				.andReturn();
+		// .equals( new CustomerDataNotFoundException("customer data does not exist with
+		// id "+id));
 		customerController.findCustomer(id);
-		
+
 	}
 
 	public static String asJsonString(final Object obj) throws JsonProcessingException {
